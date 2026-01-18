@@ -1,0 +1,12 @@
+.team-card {
+    /* 加入過渡動畫，讓浮起動作平滑 */
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    will-change: transform; /* 效能優化 */
+}
+
+.team-card:hover {
+    /* 向上浮動 8px 並稍微放大，增加立體感 */
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* 加深陰影 */
+    z-index: 10; /* 確保浮起時蓋過周圍元素 */
+}
