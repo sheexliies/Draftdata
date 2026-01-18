@@ -55,10 +55,18 @@ const ControlPanel = ({
         <div className="control-panel">
             <div className="panel-header">
                 <span className="panel-title">控制面板</span>
-                <button className="btn-outline btn-sm" onClick={() => setIsCollapsed(!isCollapsed)}>
-                    {isCollapsed ? '展開' : '收合'}
-                    <span className={`arrow-icon ${!isCollapsed ? 'rotated' : ''}`}>▼</span>
-                </button>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <button className="btn-outline btn-sm" onClick={toggleHighQuality} title={highQuality ? "切換為省電模式" : "切換為高畫質"}>
+                        {highQuality ? '✨' : '💨'}
+                    </button>
+                    <button className="btn-outline btn-sm" onClick={toggleDarkMode} title="切換深色/淺色模式">
+                        {darkMode ? '☀️' : '🌙'}
+                    </button>
+                    <button className="btn-outline btn-sm" onClick={() => setIsCollapsed(!isCollapsed)}>
+                        {isCollapsed ? '展開' : '收合'}
+                        <span className={`arrow-icon ${!isCollapsed ? 'rotated' : ''}`}>▼</span>
+                    </button>
+                </div>
             </div>
 
             <div className={`panel-body ${isCollapsed ? 'collapsed' : ''}`}>
@@ -168,12 +176,6 @@ const ControlPanel = ({
                 </button>
                 <button className="btn-outline btn-sm" onClick={onClearCache} style={{ color: 'var(--danger)', borderColor: 'var(--danger)' }}>
                     🗑️ 清除
-                </button>
-                <button className="btn-outline btn-sm" onClick={toggleHighQuality}>
-                    {highQuality ? '✨ 高畫質: ON' : '💨 省電模式'}
-                </button>
-                <button className="btn-outline btn-sm" onClick={toggleDarkMode}>
-                    {darkMode ? '☀️' : '🌙'}
                 </button>
             </div>
         </div>
