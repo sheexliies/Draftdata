@@ -95,7 +95,7 @@ body.rich-mode .viper-logo {
     background: var(--card-bg); /* 預設實心背景 */
     border-bottom: 1px solid rgba(0,0,0,0.05);
     padding-bottom: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
@@ -285,7 +285,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     background: var(--card-bg);
     padding: 15px 20px;
     border-radius: var(--border-radius);
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-size: 1em;
     border-left: 5px solid var(--primary);
     box-shadow: var(--card-shadow);
@@ -332,6 +332,7 @@ body.rich-mode.dark-mode .status-bar {
     overflow: visible;
     padding-right: 0;
     padding-bottom: 20px;
+    padding-top: 25px;
     align-content: start;
 }
 
@@ -351,7 +352,6 @@ body.rich-mode.dark-mode .status-bar {
 
 /* 只有在精緻模式下，才啟用進場動畫與 Hover 陰影加深 */
 body.rich-mode .team-card {
-    animation: fadeIn 0.5s ease-out forwards;
 }
 body.rich-mode .team-card:hover { box-shadow: var(--card-hover-shadow); }
 
@@ -451,6 +451,7 @@ body.dark-mode .file-btn {
 .modal-content { 
     background: var(--card-bg);
     padding: 20px; border-radius: var(--border-radius); width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.25); color: var(--text-color); 
+    animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 body.rich-mode .modal-content {
@@ -525,6 +526,11 @@ body.dark-mode .preview-table tr:hover { background-color: rgba(255,255,255,0.05
     to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes modalPop {
+    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+    100% { opacity: 1; transform: none; }
+}
+
 @keyframes wave {
     0% { box-shadow: 0 0 0 0 var(--primary); }
     70% { box-shadow: 0 0 0 10px transparent; }
@@ -544,6 +550,7 @@ body.dark-mode .preview-table tr:hover { background-color: rgba(255,255,255,0.05
     display: flex;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     z-index: 2;
+    white-space: nowrap;
 }
 
 .picking-char {
@@ -554,17 +561,6 @@ body.rich-mode .picking-char {
     will-change: transform;
     animation: waveJump 1.2s infinite ease-in-out;
 }
-
-.picking-char:nth-child(1) { animation-delay: 0.0s; }
-.picking-char:nth-child(2) { animation-delay: 0.1s; }
-.picking-char:nth-child(3) { animation-delay: 0.2s; }
-.picking-char:nth-child(4) { animation-delay: 0.3s; }
-.picking-char:nth-child(5) { animation-delay: 0.4s; }
-.picking-char:nth-child(6) { animation-delay: 0.5s; }
-.picking-char:nth-child(7) { animation-delay: 0.6s; }
-.picking-char:nth-child(8) { animation-delay: 0.7s; }
-.picking-char:nth-child(9) { animation-delay: 0.8s; }
-.picking-char:nth-child(10) { animation-delay: 0.9s; }
 
 @keyframes waveJump {
     0%, 100% { transform: translateY(0); }
@@ -600,77 +596,48 @@ body.rich-mode .picking-char {
     100% { transform: rotate(360deg); }
 }
 
-/* 自訂 Tooltip 樣式 */
-.tooltip-container {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip-container::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(5px);
+/* 全域 Tooltip 樣式 (解決定位跑掉問題) */
+.global-tooltip {
+    position: fixed;
+    transform: translateX(-50%);
     padding: 6px 10px;
     background-color: rgba(0, 0, 0, 0.85);
     color: #fff;
     border-radius: 4px;
     font-size: 0.85em;
     white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s, transform 0.2s;
-    pointer-events: none;
-    margin-bottom: 8px;
-    z-index: 100;
+    z-index: 9999;
+    pointer-events: auto;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    animation: tooltipFadeIn 0.2s ease-out;
 }
 
-.tooltip-container::after {
-    content: '';
+.global-tooltip.top { transform: translateX(-50%) translateY(-100%) translateY(-8px); }
+.global-tooltip.bottom { transform: translateX(-50%) translateY(8px); }
+
+/* Tooltip 箭頭 */
+.tooltip-arrow {
     position: absolute;
-    bottom: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(5px);
+    transform: translateX(-50%);
     border: 5px solid transparent;
-    border-top-color: rgba(0, 0, 0, 0.85);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s, transform 0.2s;
-    margin-bottom: -2px;
-    z-index: 100;
 }
 
-.tooltip-container:hover::before,
-.tooltip-container:hover::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
+.global-tooltip.top .tooltip-arrow { top: 100%; border-top-color: rgba(0, 0, 0, 0.85); }
+.global-tooltip.bottom .tooltip-arrow { bottom: 100%; border-bottom-color: rgba(0, 0, 0, 0.85); }
+
+@keyframes tooltipFadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-100%) translateY(-3px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(-100%) translateY(-8px); }
 }
 
-/* Tooltip 自動轉向下方樣式 */
-.tooltip-container[data-position="bottom"]::before {
-    bottom: auto;
-    top: 100%;
-    margin-bottom: 0;
-    margin-top: 8px;
-    transform: translateX(-50%) translateY(-5px);
+/* 下方顯示時的動畫 */
+.global-tooltip.bottom {
+    animation: tooltipFadeInBottom 0.2s ease-out;
 }
-
-.tooltip-container[data-position="bottom"]::after {
-    bottom: auto;
-    top: 100%;
-    border-top-color: transparent;
-    border-bottom-color: rgba(0, 0, 0, 0.85);
-    margin-bottom: 0;
-    margin-top: -2px;
-    transform: translateX(-50%) translateY(-5px);
-}
-
-.tooltip-container[data-position="bottom"]:hover::before,
-.tooltip-container[data-position="bottom"]:hover::after {
-    transform: translateX(-50%) translateY(0);
+@keyframes tooltipFadeInBottom {
+    from { opacity: 0; transform: translateX(-50%) translateY(3px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(8px); }
 }
 
 /* Logo 浮動動畫 */

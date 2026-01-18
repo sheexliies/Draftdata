@@ -8,7 +8,11 @@ const TeamCard = ({ team, index, isActive, minScore, maxScore, onPlayerClick, is
     // 自動捲動到當前卡片
     useEffect(() => {
         if (isActive && cardRef.current) {
-            cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // 延遲捲動以確保 Header 高度計算完成，改用 center 確保一定會捲動定位
+            const timer = setTimeout(() => {
+                cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 200);
+            return () => clearTimeout(timer);
         }
     }, [isActive]);
 
@@ -64,8 +68,15 @@ const TeamCard = ({ team, index, isActive, minScore, maxScore, onPlayerClick, is
         >
             {isActive && (
                 <div className="picking-badge">
-                    {['P','i','c','k','i','n','g','.','.','.'].map((char, i) => (
-                        <span key={i} className="picking-char">{char}</span>
+                    {/* 拆解字串以套用波浪動畫 */}
+                    {"Picking...".split("").map((char, i) => (
+                        <span 
+                            key={i} 
+                            className="picking-char" 
+                            style={{ animationDelay: `${i * 0.1}s` }}
+                        >
+                            {char}
+                        </span>
                     ))}
                 </div>
             )}

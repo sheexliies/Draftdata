@@ -58,6 +58,9 @@ function App() {
         }
     }, [isRichMode]);
 
+    // 匯出設定：是否包含分數
+    const [exportWithScores, setExportWithScores] = useState(true);
+
     // 資料狀態
     const [allPlayers, setAllPlayers] = useState(() => {
         try {
@@ -226,13 +229,13 @@ function App() {
             const ws = wb.Sheets[wsname];
             const data = XLSX.utils.sheet_to_json(ws);
 
-            // 依照需求只抓取 captain_name, name, score 欄位，忽略其他
+            // 依照需求只抓取 team, name, score 欄位，忽略其他
             const formattedData = data.map((row, index) => {
                 return {
                     id: index,
                     name: row['name'] || row['Name'] || row['姓名'] || `Player ${index}`,
                     score: row['score'] || row['Score'] || row['sorce'] || row['分數'] || 0,
-                    captain_name: row['captain_name'] || row['Captain_Name'] || null
+                    team: row['team'] || row['team'] || null
                 };
             }).filter(p => p.name && p.score !== undefined);
 
@@ -265,14 +268,14 @@ function App() {
 
         // 初始化隊伍
         const newTeams = Array.from({ length: settings.teamsCount }, (_, i) => {
-            // 嘗試從 Excel 找隊長 (假設第 i 筆資料對應第 i 隊，且有 captain_name)
+            // 嘗試從 Excel 找隊長 (假設第 i 筆資料對應第 i 隊，且有 team)
             const captainCandidate = allPlayers[i];
-            const hasCaptain = captainCandidate && captainCandidate.captain_name;
+            const hasCaptain = captainCandidate && captainCandidate.team;
             
             return {
                 id: i,
                 // 若無隊長名字，使用 Team + 數字
-                name: hasCaptain ? captainCandidate.captain_name : `Team ${i + 1}`,
+                name: hasCaptain ? captainCandidate.team : `Team ${i + 1}`,
                 score: 0,
                 roster: []
             };
@@ -513,7 +516,10 @@ function App() {
         const data = teams.map(t => {
             const row = { "隊伍": t.name, "總分": t.score };
             t.roster.forEach((p, i) => {
-                row[`隊員 ${i+1}`] = `${p.name} (${p.score})`;
+                row[`隊員 ${i+1}`] = p.name;
+                if (exportWithScores) {
+                    row[`分數 ${i+1} `] = p.score;
+                }
             });
             return row;
         });
@@ -527,7 +533,7 @@ function App() {
     // 下載範本
     const handleDownloadTemplate = () => {
         const ws = XLSX.utils.aoa_to_sheet([
-            ['captain_name', 'name', 'score'],
+            ['team', 'name', 'score'],
             ['Team 1', 'Player A', 10],
             ['', 'Player B', 8],
             ['Team 2', 'Player C', 12]
@@ -630,6 +636,8 @@ function App() {
                         swapSource={swapSource}
                         isRichMode={isRichMode}
                         toggleRichMode={() => setIsRichMode(!isRichMode)}
+                        exportWithScores={exportWithScores}
+                        setExportWithScores={setExportWithScores}
                     />
                     <StatusBar message={draftStatus.message} progress={draftStatus.progress} type={draftStatus.messageType} />
                 </div>

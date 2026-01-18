@@ -18,7 +18,7 @@ const DataPreviewModal = ({ isOpen, onClose, data }) => {
                                 <th>ID</th>
                                 <th>姓名</th>
                                 <th>分數</th>
-                                <th>隊長標記 (隊名)</th>
+                                <th>隊長 (隊名)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,7 +27,7 @@ const DataPreviewModal = ({ isOpen, onClose, data }) => {
                                     <td>{player.id}</td>
                                     <td>{player.name}</td>
                                     <td>{player.score}</td>
-                                    <td>{player.captain_name || '-'}</td>
+                                    <td>{player.team || '-'}</td>
                                 </tr>
                             ))}
                         </tbody>

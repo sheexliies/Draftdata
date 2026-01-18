@@ -199,9 +199,9 @@ export const DraftLogic = {
         }
 
         if (isSafeSelf && isSafeGlobal) return { status: "✅", description: "安全", level: 1 };
-        if (!isSafeSelf && !isSafeGlobal) return { status: "⚠️", description: "高風險 (全局+自身)", level: 4 };
-        if (!isSafeGlobal) return { status: "⚠️", description: "全局風險", level: 3 };
-        if (!isSafeSelf) return { status: "⚠️", description: "自身風險", level: 2 };
+        if (!isSafeSelf && !isSafeGlobal) return { status: "⚠️", description: "有風險", level: 4 };
+        if (!isSafeGlobal) return { status: "⚠️", description: "有風險", level: 3 };
+        if (!isSafeSelf) return { status: "⚠️", description: "有風險", level: 2 };
 
         return { status: "❔", description: "未知", level: 99 };
     }

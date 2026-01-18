@@ -10,6 +10,8 @@
 
 **ViperDraft** is a web-based draft simulation tool built with React and Vite, designed for scenarios requiring balanced team strengths (e.g., gaming tournaments, group activities). It combines **Snake Draft** order with **Softmax Weighted Random Algorithm** and features intelligent deadlock prevention mechanisms to ensure every team completes their roster within score limits.
 
+> **🚀 Try it now!** Click the **[Online Demo](https://sheexliies.github.io/ViperDraft/)** badge above to use it directly in your browser without installation.
+
 ### ✨ Key Features
 
 #### Core Draft Mechanics
@@ -38,7 +40,7 @@
 #### Data Management
 *   **Excel Import/Export**:
     *   Supports `.xlsx` / `.xls` formats.
-    *   Automatically reads `captain_name`, `name`, and `score` columns.
+    *   Automatically reads `team`, `name`, and `score` columns.
     *   **Template Download**: Provides a standard Excel template.
     *   **Data Preview**: Preview imported data directly in the UI.
 *   **Persistence**:
@@ -54,7 +56,24 @@
 *   **Undo**: Revert the last selection at any time.
 *   **Export Results**: Export final groupings to an Excel file.
 
-### 🚀 Installation & Run
+### 📖 Usage Guide
+
+0.  **Access**: Open the **[Online Demo](https://sheexliies.github.io/ViperDraft/)**.
+1.  **Prepare Data**: Create an Excel file (`.xlsx`).
+    *   **Columns**: `name` (Required), `score` (Required), `team` (Optional - for pre-assigned captains).
+    *   *Tip: You can download a template directly from the control panel.*
+2.  **Configuration**:
+    *   Upload your file.
+    *   Set **Teams Count**, **Players per Team**, and **Score Limits**.
+    *   Click **Load** to initialize the draft board.
+3.  **Drafting**:
+    *   **Auto Draft**: Instantly complete the draft using the AI algorithm.
+    *   **Manual Pick**: Click "Manual Pick" to search and select specific players for the current team.
+4.  **Adjust & Export**:
+    *   Drag and drop players to swap if needed.
+    *   Click **Export Results** to save the final rosters.
+
+### � Installation & Run
 
 This project is built using Node.js and Vite.
 
@@ -83,6 +102,8 @@ This project is built using Node.js and Vite.
 ## 🇹🇼 中文說明
 
 **ViperDraft** 是一個基於 React 與 Vite 開發的網頁版選秀模擬工具，專為需要平衡隊伍實力（如遊戲競賽、分組活動）的場景設計。它結合了 **S 型選秀 (Snake Draft)** 順序與 **Softmax 加權隨機演算法**，並具備智慧型的防死鎖機制，確保每支隊伍都能在分數限制內完成組隊。
+
+> **🚀 立即體驗！** 點擊上方的 **Online Demo** 徽章，無需安裝即可直接在瀏覽器中開始使用。
 
 ### ✨ 主要功能
 
@@ -113,7 +134,7 @@ This project is built using Node.js and Vite.
 #### 資料管理
 *   **Excel 匯入/匯出**：
     *   支援 `.xlsx` / `.xls` 格式。
-    *   自動讀取 `captain_name` (隊長/隊名)、`name` (姓名)、`score` (分數) 欄位。
+    *   自動讀取 `team` (隊長/隊名)、`name` (姓名)、`score` (分數) 欄位。
     *   提供 **標準範本下載** 功能。
     *   **名單預覽**：可直接在介面上預覽匯入的資料。
 *   **資料持久化 (Persistence)**：
@@ -128,6 +149,24 @@ This project is built using Node.js and Vite.
     *   拖曳時支援視窗邊緣自動捲動。
 *   **上一步 (Undo)**：可隨時回溯上一次的選擇。
 *   **結果匯出**：將最終分組結果匯出為 Excel 檔案。
+
+### 📖 使用教學
+
+0.  **開啟網頁**：點擊 **Online Demo** 進入線上版。
+1.  **準備資料**：建立一個 Excel 檔案 (`.xlsx`)。
+    *   **必要欄位**：`name` (姓名)、`score` (分數)。
+    *   **選填欄位**：`team` (隊長/隊名，若填寫將自動設為該隊名稱)。
+    *   *小撇步：您可以直接從控制面板下載標準範本。*
+2.  **設定與載入**：
+    *   上傳您的 Excel 檔案。
+    *   設定 **隊伍數量**、**每隊人數** 以及 **分數上下限**。
+    *   點擊 **載入** 初始化選秀看板。
+3.  **進行選秀**：
+    *   **自動選秀**：一鍵由 AI 演算法瞬間完成所有選擇。
+    *   **手動選人**：點擊「手動選人」可搜尋並指定特定球員。
+4.  **調整與匯出**：
+    *   選秀結束後，可透過拖曳或點擊來交換隊員。
+    *   點擊 **匯出結果** 下載最終名單。
 
 ### 🚀 安裝與執行
 

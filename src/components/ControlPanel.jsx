@@ -21,7 +21,9 @@ const ControlPanel = ({
     onPreview,
     swapSource,
     isRichMode,
-    toggleRichMode
+    toggleRichMode,
+    exportWithScores,
+    setExportWithScores
 }) => {
     
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -161,6 +163,16 @@ const ControlPanel = ({
                     <div className="swap-hint" style={{ color: swapSource ? 'var(--primary)' : 'var(--text-secondary)', fontWeight: 'bold', marginBottom: '10px' }}>
                         {swapSource ? `已選取: ${swapSource.player.name} (點擊另一人交換)` : "💡 點擊/拖曳隊員可進行交換"}
                     </div>
+                    
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', marginRight: '8px', fontSize: '0.95em' }}>
+                        <input 
+                            type="checkbox" 
+                            checked={exportWithScores} 
+                            onChange={(e) => setExportWithScores(e.target.checked)} 
+                        />
+                        匯出分數
+                    </label>
+
                     <button className="btn-success" onClick={onExport}>
                         💾 匯出結果
                     </button>

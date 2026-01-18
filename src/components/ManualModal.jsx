@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { DraftLogic } from '../utils/DraftLogic';
 
 const ManualModal = ({ isOpen, onClose, team, availablePlayers, onSelect, teams, settings, teammatesPerTeam }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [tooltip, setTooltip] = useState(null); // { text, x, y, position }
+    const timeoutRef = useRef(null);
 
     // 1. 使用 useMemo 快取風險計算結果
     // 只有當 isOpen, team 或名單改變時才重新計算，搜尋(打字)時不重算
@@ -42,16 +44,24 @@ const ManualModal = ({ isOpen, onClose, team, availablePlayers, onSelect, teams,
         p.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // 自動偵測 Tooltip 位置
-    const handleTooltipEnter = (e) => {
-        const target = e.currentTarget;
-        const rect = target.getBoundingClientRect();
-        // 如果元素距離視窗頂部小於 50px (Tooltip 約略高度)，則標記顯示在下方
-        if (rect.top < 50) {
-            target.setAttribute('data-position', 'bottom');
-        } else {
-            target.removeAttribute('data-position'); // 否則維持預設 (上方)
-        }
+    // Tooltip 處理：計算座標並顯示
+    const handleTooltipEnter = (e, text) => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+        const rect = e.currentTarget.getBoundingClientRect();
+        const isBottom = rect.top < 100; // 距離頂部太近則顯示在下方
+        setTooltip({
+            text,
+            x: rect.left + rect.width / 2,
+            y: isBottom ? rect.bottom : rect.top,
+            position: isBottom ? 'bottom' : 'top'
+        });
+    };
+
+    const handleTooltipLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setTooltip(null);
+        }, 200); // 200ms 緩衝時間讓滑鼠移動過去
     };
 
     return (
@@ -77,10 +87,10 @@ const ManualModal = ({ isOpen, onClose, team, availablePlayers, onSelect, teams,
                         <div key={player.id} className="modal-item" onClick={() => onSelect(player)}>
                             <span>
                                 <span 
-                                    className="tooltip-container" 
-                                    data-tooltip={player.risk.description} 
+                                    className="risk-badge" 
                                     style={{ cursor: 'help', marginRight: '6px' }}
-                                    onMouseEnter={handleTooltipEnter}
+                                    onMouseEnter={(e) => handleTooltipEnter(e, player.risk.description)}
+                                    onMouseLeave={handleTooltipLeave}
                                 >
                                     {player.risk.status}
                                 </span>
@@ -91,6 +101,21 @@ const ManualModal = ({ isOpen, onClose, team, availablePlayers, onSelect, teams,
                     ))}
                 </div>
             </div>
+
+            {/* 全域 Tooltip：渲染在最外層以避免定位問題 */}
+            {tooltip && (
+                <div 
+                    className={`global-tooltip ${tooltip.position}`} 
+                    style={{ left: tooltip.x, top: tooltip.y }}
+                    onMouseEnter={() => {
+                        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                    }}
+                    onMouseLeave={handleTooltipLeave}
+                >
+                    {tooltip.text}
+                    <div className="tooltip-arrow"></div>
+                </div>
+            )}
         </div>
     );
 };
