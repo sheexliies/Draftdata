@@ -222,11 +222,13 @@ input[type="number"] {
     font-size: 1em;
 }
 
-body.rich-mode input[type="number"] {
+body.rich-mode input[type="number"],
+body.rich-mode input[type="number"]:disabled {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(4px);
 }
-body.rich-mode.dark-mode input[type="number"] {
+body.rich-mode.dark-mode input[type="number"],
+body.rich-mode.dark-mode input[type="number"]:disabled {
     background: rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
     color: white;
@@ -384,7 +386,7 @@ body.rich-mode .team-card:hover { box-shadow: var(--card-hover-shadow); }
     font-size: 1.05em; display: flex; justify-content: space-between;
 }
 
-/* 只有在精緻模式下，球員加入才會有滑入動畫 */
+/* 只有在精緻模式下，隊員加入才會有滑入動畫 */
 body.rich-mode .player-item {
     animation: slideIn 0.3s ease-out forwards;
 }

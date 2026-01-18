@@ -159,7 +159,7 @@ const ControlPanel = ({
             {draftStatus.isComplete && (
                 <div className="control-group result-group">
                     <div className="swap-hint" style={{ color: swapSource ? 'var(--primary)' : 'var(--text-secondary)', fontWeight: 'bold', marginBottom: '10px' }}>
-                        {swapSource ? `已選取: ${swapSource.player.name} (點擊另一人交換)` : "💡 點擊球員可進行交換"}
+                        {swapSource ? `已選取: ${swapSource.player.name} (點擊另一人交換)` : "💡 點擊/拖曳隊員可進行交換"}
                     </div>
                     <button className="btn-success" onClick={onExport}>
                         💾 匯出結果

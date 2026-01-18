@@ -3,7 +3,7 @@
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* === 高畫質動畫 (含陰影變化，視覺較佳但較吃效能) === */
+/* === 精緻動畫 (含陰影變化，視覺較佳但較吃效能) === */
 @keyframes float-small-hq {
     0% { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
     50% { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); }
@@ -16,7 +16,7 @@
     100% { transform: translateY(-8px) scale(1.05); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); }
 }
 
-/* 預設 (省電模式)：僅使用 Transition 進行靜態位移，無 Animation 迴圈 */
+/* 預設 (流暢模式)：僅使用 Transition 進行靜態位移，無 Animation 迴圈 */
 .team-card:hover {
     transform: translateY(-5px) scale(1.02); /* 靜態浮起 */
     z-index: 10;

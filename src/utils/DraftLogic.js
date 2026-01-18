@@ -86,7 +86,7 @@ export const DraftLogic = {
         return true;
     },
 
-    // 檢查選擇某球員後，該隊伍未來是否還有活路 (自身可行性)
+    // 檢查選擇某隊員後，該隊伍未來是否還有活路 (自身可行性)
     checkFutureFeasibility: (team, candidatePick, sortedScores, settings, teammatesPerTeam) => {
         const currentRoster = team.roster || [];
         const remainingSlots = teammatesPerTeam - currentRoster.length - 1; // -1 是因為包含了 candidatePick
@@ -121,7 +121,7 @@ export const DraftLogic = {
         return true;
     },
 
-    // 獲取智慧過濾後的合法球員名單
+    // 獲取智慧過濾後的合法隊員名單
     getSmartValidPlayers: (teamIndex, teams, availablePlayers, settings, teammatesPerTeam) => {
         const team = teams[teamIndex];
         const remainingSlots = teammatesPerTeam - team.roster.length;
@@ -135,7 +135,7 @@ export const DraftLogic = {
         let validPlayers = availablePlayers.filter(p => p.score <= remainingScoreMax);
 
         if (validPlayers.length === 0) {
-            return { valid: [], error: "沒有球員分數低於剩餘上限" };
+            return { valid: [], error: "沒有隊員分數低於剩餘上限" };
         }
 
         // 2. 最後一選的特殊檢查

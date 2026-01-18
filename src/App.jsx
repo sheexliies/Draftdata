@@ -281,7 +281,7 @@ function App() {
         // 產生完整的選秀順序
         let order = DraftLogic.generateDraftOrder(settings.teamsCount, settings.teammatesPerTeam);
         
-        // 所有球員皆可選 (不預先扣除)
+        // 所有隊員皆可選 (不預先扣除)
         const available = [...allPlayers];
         
         setTeams(newTeams);
@@ -362,7 +362,7 @@ function App() {
         const newTeams = [...teams];
         const team = newTeams[teamIndex];
         
-        // 取出最後加入的球員
+        // 取出最後加入的隊員
         const playerToRemove = team.roster.pop();
         team.score -= playerToRemove.score;
 
@@ -413,7 +413,7 @@ function App() {
         setDraftStatus(prev => ({ ...prev, message: `已交換: ${sourceP.name} ↔ ${targetP.name}`, messageType: 'success' }));
     }, [teams]);
 
-    // 處理球員交換 (點擊)
+    // 處理隊員交換 (點擊)
     const handlePlayerClick = useCallback((teamIndex, player) => {
         if (!draftStatus.isComplete) return;
 
