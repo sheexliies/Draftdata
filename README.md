@@ -58,9 +58,26 @@
 *   **Export Results**: Export final groupings to an Excel file.
     *   **Customizable**: Option to include or exclude player scores in the export.
 
-### 📖 Usage Guide
+### 🚀 Getting Started
 
-0.  **Access**: Open the **[Online Demo](https://sheexliies.github.io/ViperDraft/)**.
+You can choose to use the online version directly or run it locally.
+
+#### Option 1: Online Version (Recommended)
+Simply click the link below to use it in your browser without installation.
+*   **[👉 Launch ViperDraft Online](https://sheexliies.github.io/ViperDraft/)**
+
+#### Option 2: Local Installation
+If you are a developer or want to run it offline:
+
+1.  **Prerequisites**: Node.js (v16+) and npm/yarn.
+2.  **Install Dependencies**: `npm install`
+3.  **Start Server**: `npm run dev`
+4.  **Build**: `npm run build`
+
+###  Usage Guide
+
+Once you have opened the application (Online or Local):
+
 1.  **Prepare Data**: Create an Excel file (`.xlsx`).
     *   **Columns**: `name` (Required), `score` (Required), `team` (Optional - for pre-assigned captains).
     *   *Tip: You can download a template directly from the control panel.*
@@ -98,29 +115,6 @@
 3.  **Drafting** 🎲 : Use **Auto Draft** or **Manual Pick** until full.
 4.  **Refining** 🔧 : Drag & Drop to swap players if needed.
 5.  **Export** 📤 : Click **Export Results** to save file.
-
-### � Installation & Run
-
-This project is built using Node.js and Vite.
-
-#### Prerequisites
-*   **Node.js**: v16.0 or higher (Recommended).
-*   **npm** (included with Node.js) or **yarn**.
-
-1.  **Install Dependencies**
-    ```bash
-    npm install
-    ```
-
-2.  **Start Development Server**
-    ```bash
-    npm run dev
-    ```
-
-3.  **Build for Production**
-    ```bash
-    npm run build
-    ```
 
 ---
 
@@ -178,9 +172,26 @@ This project is built using Node.js and Vite.
 *   **結果匯出**：將最終分組結果匯出為 Excel 檔案。
     *   **自訂選項**：可勾選是否要在匯出檔案中包含隊員分數。
 
+### 🚀 快速開始 (Getting Started)
+
+您可以選擇直接使用線上版，或是下載原始碼在本地執行。
+
+#### 方法一：線上版 (推薦)
+無需安裝，點擊下方連結即可直接在瀏覽器中使用。
+*   **👉 開啟 ViperDraft 線上版**
+
+#### 方法二：本地安裝 (開發者)
+如果您需要離線使用或進行開發：
+
+1.  **前置需求**：Node.js (v16+) 與 npm/yarn。
+2.  **安裝依賴**：`npm install`
+3.  **啟動伺服器**：`npm run dev`
+4.  **建置版本**：`npm run build`
+
 ### 📖 使用教學
 
-0.  **開啟網頁**：點擊 **Online Demo** 進入線上版。
+進入應用程式後（無論是線上版或本地版）：
+
 1.  **準備資料**：建立一個 Excel 檔案 (`.xlsx`)。
     *   **必要欄位**：`name` (姓名)、`score` (分數)。
     *   **選填欄位**：`team` (隊長/隊名，若填寫將自動設為該隊名稱)。
@@ -219,29 +230,6 @@ This project is built using Node.js and Vite.
 3.  **進行選秀** 🎲：使用 **「自動選秀」** (快速) 或 **「手動選人」** (精準)。
 4.  **戰力調整** 🔧：選秀結束後，可拖曳或點擊交換隊員。
 5.  **存檔匯出** 📤：點擊 **「匯出結果」** 保存最終名單。
-
-### 🚀 安裝與執行
-
-本專案使用 Node.js 與 Vite 建置。
-
-#### 前置需求
-*   **Node.js**: 建議 v16.0 或更高版本。
-*   **npm** (通常隨 Node.js 安裝) 或 **yarn**。
-
-1.  **安裝依賴**
-    ```bash
-    npm install
-    ```
-
-2.  **啟動開發伺服器**
-    ```bash
-    npm run dev
-    ```
-
-3.  **建置生產版本**
-    ```bash
-    npm run build
-    ```
 
 ---
 
