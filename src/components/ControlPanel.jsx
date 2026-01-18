@@ -122,9 +122,6 @@ const ControlPanel = ({
                             <button className="btn-outline btn-sm" onClick={onPreview} disabled={!hasFile}>
                                 👀 預覽
                             </button>
-                            <button className="btn-primary btn-sm" onClick={onLoadData} disabled={isDataLoaded || isSettingsInvalid}>
-                                📥 載入
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -161,6 +158,9 @@ const ControlPanel = ({
             )}
 
             <div className="control-group system-group">
+                <button className="btn-primary btn-sm" onClick={onLoadData} disabled={isDataLoaded || isSettingsInvalid}>
+                    📥 載入
+                </button>
                 <button className="btn-outline btn-sm" onClick={onReset}>
                     🔄 重置
                 </button>

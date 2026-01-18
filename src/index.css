@@ -204,9 +204,17 @@ input[type="number"] {
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--bg-color);
+    background: rgba(255, 255, 255, 0.5); /* 輸入框改為半透明 */
+    backdrop-filter: blur(4px);
     color: var(--text-color);
     font-size: 1em;
+}
+
+/* 深色模式下的輸入框樣式 */
+body.dark-mode input[type="number"] {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
 }
 
 button {
@@ -220,6 +228,7 @@ button {
     display: flex;
     align-items: center;
     gap: 8px;
+    backdrop-filter: blur(4px); /* 按鈕毛玻璃效果 */
 }
 
 .btn-primary { background-color: var(--primary); color: #fff; }
@@ -233,26 +242,43 @@ button {
 .btn-success { background-color: var(--success); color: white; }
 .btn-success:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
 
-.btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-color); }
-.btn-outline:hover { background: rgba(128,128,128,0.1); }
+.btn-outline { 
+    background: rgba(255, 255, 255, 0.3); /* 淺色模式半透明 */
+    border: 1px solid rgba(0, 0, 0, 0.1); 
+    color: var(--text-color); 
+}
+.btn-outline:hover { background: rgba(255, 255, 255, 0.5); }
 
 body.dark-mode .btn-outline {
+    background: rgba(0, 0, 0, 0.3); /* 深色模式半透明 */
+    border-color: rgba(255, 255, 255, 0.2);
     color: #ffffff;
 }
+body.dark-mode .btn-outline:hover { background: rgba(255, 255, 255, 0.1); }
 
 button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
 .status-bar {
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.65); /* 狀態列也改為毛玻璃 */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     padding: 15px 20px;
     border-radius: var(--border-radius);
     margin-bottom: 30px;
     font-size: 1em;
     border-left: 5px solid var(--primary);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* 深色模式下的狀態列 */
+body.dark-mode .status-bar {
+    background: rgba(30, 35, 45, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .progress-container {
@@ -410,8 +436,16 @@ body.dark-mode .close-btn {
 }
 
 .search-container { margin-bottom: 15px; }
-.search-input { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-color); color: var(--text-color); font-size: 1em; box-sizing: border-box; }
+.search-input { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(4px); color: var(--text-color); font-size: 1em; box-sizing: border-box; }
 .search-input:focus { outline: none; border-color: var(--primary); }
+
+/* 深色模式下的搜尋框 */
+body.dark-mode .search-input {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
 .modal-item.selected { background-color: var(--primary); color: #fff; }
 .modal-item.selected span { color: #fff; }
 
