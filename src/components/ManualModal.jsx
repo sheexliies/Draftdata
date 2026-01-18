@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { DraftLogic } from '../utils/DraftLogic';
 
 const ManualModal = ({ isOpen, onClose, team, availablePlayers, onSelect, teams, settings, teammatesPerTeam }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [analyzedPlayers, setAnalyzedPlayers] = useState([]);
 
-    useEffect(() => {
-        if (isOpen && team) {
-            // 計算所有球員的風險
+    // 1. 使用 useMemo 快取風險計算結果
+    // 只有當 isOpen, team 或名單改變時才重新計算，搜尋(打字)時不重算
+    const analyzedPlayers = useMemo(() => {
+        if (!isOpen || !team) return [];
+
+        try {
             const analyzed = availablePlayers.map(player => {
                 const risk = DraftLogic.analyzeRisk(
                     teams.indexOf(team), 
@@ -26,12 +28,16 @@ const ManualModal = ({ isOpen, onClose, team, availablePlayers, onSelect, teams,
                 return b.score - a.score;
             });
 
-            setAnalyzedPlayers(analyzed);
+            return analyzed;
+        } catch (e) {
+            console.error("Risk analysis failed", e);
+            return availablePlayers;
         }
-    }, [isOpen, team, availablePlayers, searchTerm]);
+    }, [isOpen, team, availablePlayers, teams, settings, teammatesPerTeam]);
 
     if (!isOpen || !team) return null;
 
+    // 2. 搜尋過濾獨立處理，打字時只執行這裡，非常快速
     const filteredPlayers = analyzedPlayers.filter(p => 
         p.name.toLowerCase().includes(searchTerm.toLowerCase())
     );

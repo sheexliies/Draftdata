@@ -47,7 +47,7 @@ body {
     width: 100%;
 }
 
-body.high-quality {
+body.rich-mode {
     background-attachment: fixed; /* 開啟特效時鎖定背景 */
 }
 
@@ -81,10 +81,10 @@ h1 {
     height: 42px;
     color: var(--primary);
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    will-change: transform; /* 告知瀏覽器提前優化動畫 */
 }
 
-body.high-quality .viper-logo {
+body.rich-mode .viper-logo {
+    will-change: transform;
     animation: float 3s ease-in-out infinite;
 }
 
@@ -99,7 +99,7 @@ body.high-quality .viper-logo {
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
-body.high-quality .sticky-header {
+body.rich-mode .sticky-header {
     background: rgba(240, 242, 245, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -128,7 +128,7 @@ body.high-quality .sticky-header {
     gap: 15px;
 }
 
-body.high-quality .control-panel {
+body.rich-mode .control-panel {
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -136,9 +136,9 @@ body.high-quality .control-panel {
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-/* 深色模式 + 高畫質 */
-body.high-quality.dark-mode .control-panel,
-body.high-quality.dark-mode .sticky-header {
+/* 深色模式 + 精緻模式 */
+body.rich-mode.dark-mode .control-panel,
+body.rich-mode.dark-mode .sticky-header {
     background: rgba(30, 35, 45, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -222,11 +222,11 @@ input[type="number"] {
     font-size: 1em;
 }
 
-body.high-quality input[type="number"] {
+body.rich-mode input[type="number"] {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(4px);
 }
-body.high-quality.dark-mode input[type="number"] {
+body.rich-mode.dark-mode input[type="number"] {
     background: rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
     color: white;
@@ -263,19 +263,19 @@ button {
 }
 .btn-outline:hover { background: rgba(0,0,0,0.05); }
 
-body.high-quality .btn-outline {
+body.rich-mode .btn-outline {
     background: rgba(255, 255, 255, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(4px);
 }
-body.high-quality .btn-outline:hover { background: rgba(255, 255, 255, 0.5); }
+body.rich-mode .btn-outline:hover { background: rgba(255, 255, 255, 0.5); }
 
-body.high-quality.dark-mode .btn-outline {
+body.rich-mode.dark-mode .btn-outline {
     background: rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
     color: #ffffff;
 }
-body.high-quality.dark-mode .btn-outline:hover { background: rgba(255, 255, 255, 0.1); }
+body.rich-mode.dark-mode .btn-outline:hover { background: rgba(255, 255, 255, 0.1); }
 
 button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
@@ -292,7 +292,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     align-items: center;
 }
 
-body.high-quality .status-bar {
+body.rich-mode .status-bar {
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -300,7 +300,7 @@ body.high-quality .status-bar {
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 }
 
-body.high-quality.dark-mode .status-bar {
+body.rich-mode.dark-mode .status-bar {
     background: rgba(30, 35, 45, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
@@ -345,10 +345,13 @@ body.high-quality.dark-mode .status-bar {
     position: relative;
     box-shadow: var(--card-shadow);
     scroll-margin-top: var(--header-offset);
-    animation: fadeIn 0.5s ease-out forwards;
 }
 
-.team-card:hover { box-shadow: var(--card-hover-shadow); }
+/* 只有在精緻模式下，才啟用進場動畫與 Hover 陰影加深 */
+body.rich-mode .team-card {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+body.rich-mode .team-card:hover { box-shadow: var(--card-hover-shadow); }
 
 .team-card.active {
     border: 2px solid var(--primary);
@@ -379,6 +382,10 @@ body.high-quality.dark-mode .status-bar {
 .player-item {
     padding: 6px 0; border-bottom: 1px solid var(--border-color);
     font-size: 1.05em; display: flex; justify-content: space-between;
+}
+
+/* 只有在精緻模式下，球員加入才會有滑入動畫 */
+body.rich-mode .player-item {
     animation: slideIn 0.3s ease-out forwards;
 }
 
@@ -444,14 +451,14 @@ body.dark-mode .file-btn {
     padding: 20px; border-radius: var(--border-radius); width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.25); color: var(--text-color); 
 }
 
-body.high-quality .modal-content {
+body.rich-mode .modal-content {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-body.high-quality.dark-mode .modal-content {
+body.rich-mode.dark-mode .modal-content {
     background: rgba(36, 37, 38, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -471,11 +478,11 @@ body.dark-mode .close-btn {
 .search-input { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-color); color: var(--text-color); font-size: 1em; box-sizing: border-box; }
 .search-input:focus { outline: none; border-color: var(--primary); }
 
-body.high-quality .search-input {
+body.rich-mode .search-input {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(4px);
 }
-body.high-quality.dark-mode .search-input {
+body.rich-mode.dark-mode .search-input {
     background: rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
     color: white;
@@ -539,10 +546,10 @@ body.dark-mode .preview-table tr:hover { background-color: rgba(255,255,255,0.05
 
 .picking-char {
     display: inline-block;
-    will-change: transform;
 }
 
-body.high-quality .picking-char {
+body.rich-mode .picking-char {
+    will-change: transform;
     animation: waveJump 1.2s infinite ease-in-out;
 }
 

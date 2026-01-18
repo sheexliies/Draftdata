@@ -43,20 +43,20 @@ function App() {
         }
     }, [darkMode]);
 
-    // High Quality Mode (特效開關)
-    const [highQuality, setHighQuality] = useState(() => {
-        const saved = localStorage.getItem('draftHighQuality');
+    // Rich Mode (精緻模式/特效開關)
+    const [isRichMode, setIsRichMode] = useState(() => {
+        const saved = localStorage.getItem('draftRichMode');
         return saved !== null ? JSON.parse(saved) : true;
     });
 
     useEffect(() => {
-        localStorage.setItem('draftHighQuality', JSON.stringify(highQuality));
-        if (highQuality) {
-            document.body.classList.add('high-quality');
+        localStorage.setItem('draftRichMode', JSON.stringify(isRichMode));
+        if (isRichMode) {
+            document.body.classList.add('rich-mode');
         } else {
-            document.body.classList.remove('high-quality');
+            document.body.classList.remove('rich-mode');
         }
-    }, [highQuality]);
+    }, [isRichMode]);
 
     // 資料狀態
     const [allPlayers, setAllPlayers] = useState(() => {
@@ -353,7 +353,7 @@ function App() {
     }, [draftStatus.currentPickIndex, draftOrder, teams, availablePlayers, settings]);
 
     // 上一步 (Undo)
-    const handleUndo = () => {
+    const handleUndo = useCallback(() => {
         if (draftStatus.currentPickIndex <= 0) return;
 
         const prevIndex = draftStatus.currentPickIndex - 1;
@@ -379,10 +379,10 @@ function App() {
             message: `已復原 ${team.name} 的選擇`,
             progress: progress
         }));
-    };
+    }, [draftStatus.currentPickIndex, draftOrder, teams]);
 
     // 執行交換核心邏輯
-    const performSwap = (sourceTeamIdx, sourceP, targetTeamIdx, targetP) => {
+    const performSwap = useCallback((sourceTeamIdx, sourceP, targetTeamIdx, targetP) => {
         const newTeams = [...teams];
 
         if (sourceTeamIdx === targetTeamIdx) {
@@ -411,10 +411,10 @@ function App() {
 
         setTeams(newTeams);
         setDraftStatus(prev => ({ ...prev, message: `已交換: ${sourceP.name} ↔ ${targetP.name}`, messageType: 'success' }));
-    };
+    }, [teams]);
 
     // 處理球員交換 (點擊)
-    const handlePlayerClick = (teamIndex, player) => {
+    const handlePlayerClick = useCallback((teamIndex, player) => {
         if (!draftStatus.isComplete) return;
 
         if (swapSource) {
@@ -427,7 +427,7 @@ function App() {
         } else {
             setSwapSource({ teamIndex, player });
         }
-    };
+    }, [draftStatus.isComplete, swapSource, performSwap]);
 
     // 一次性自動選秀 (Instant Auto Draft)
     const handleAutoDraft = () => {
@@ -503,10 +503,10 @@ function App() {
     };
 
     // 手動選人處理
-    const handleManualSelect = (player) => {
+    const handleManualSelect = useCallback((player) => {
         executePick(player);
         setIsModalOpen(false);
-    };
+    }, [executePick]);
 
     // 匯出 Excel
     const handleExport = () => {
@@ -538,7 +538,7 @@ function App() {
     };
 
     // 重置
-    const handleReset = () => {
+    const handleReset = useCallback(() => {
         setIsDataLoaded(false);
         setTeams([]);
         setSwapSource(null);
@@ -552,7 +552,7 @@ function App() {
             messageType: "normal",
             progress: 0
         });
-    };
+    }, []);
 
     // 清除所有暫存
     const handleClearCache = () => {
@@ -628,8 +628,8 @@ function App() {
                         hasFile={allPlayers.length > 0}
                         onPreview={() => setIsPreviewOpen(true)}
                         swapSource={swapSource}
-                        highQuality={highQuality}
-                        toggleHighQuality={() => setHighQuality(!highQuality)}
+                        isRichMode={isRichMode}
+                        toggleRichMode={() => setIsRichMode(!isRichMode)}
                     />
                     <StatusBar message={draftStatus.message} progress={draftStatus.progress} type={draftStatus.messageType} />
                 </div>

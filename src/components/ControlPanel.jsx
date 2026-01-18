@@ -20,8 +20,8 @@ const ControlPanel = ({
     hasFile,
     onPreview,
     swapSource,
-    highQuality,
-    toggleHighQuality
+    isRichMode,
+    toggleRichMode
 }) => {
     
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -56,8 +56,8 @@ const ControlPanel = ({
             <div className="panel-header">
                 <span className="panel-title">控制面板</span>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                    <button className="btn-outline btn-sm" onClick={toggleHighQuality} title={highQuality ? "切換為省電模式" : "切換為高畫質"}>
-                        {highQuality ? '💨' : '✨'}
+                    <button className="btn-outline btn-sm" onClick={toggleRichMode} title={isRichMode ? "切換為流暢模式 (關閉特效)" : "切換為精緻模式 (開啟特效)"}>
+                        {isRichMode ? '💨' : '✨'}
                     </button>
                     <button className="btn-outline btn-sm" onClick={toggleDarkMode} title="切換深色/淺色模式">
                         {darkMode ? '☀️' : '🌙'}

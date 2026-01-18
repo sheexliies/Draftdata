@@ -6,7 +6,7 @@
 [English](#english) | [中文](#chinese)
 
 <a name="english"></a>
-## 🇬🇧 English Description
+## en English Description
 
 **ViperDraft** is a web-based draft simulation tool built with React and Vite, designed for scenarios requiring balanced team strengths (e.g., gaming tournaments, group activities). It combines **Snake Draft** order with **Softmax Weighted Random Algorithm** and features intelligent deadlock prevention mechanisms to ensure every team completes their roster within score limits.
 
@@ -21,7 +21,9 @@
 *   **Score Constraints**: Strictly adheres to "Min Score" and "Max Score" limits per team.
 
 #### Interface & Operation
-*   **Control Panel**: Collapsible to save screen space; grouped buttons for settings, operations, and system.
+*   **Control Panel**:
+    *   Collapsible to save screen space.
+    *   **Quick Toggles**: Top-right buttons for Dark Mode and **Rich/Performance Mode**.
 *   **Manual Pick**:
     *   Search functionality.
     *   **Risk Analysis**: Displays selection risk (✅ Safe, ⚠️ Risk, ❌ Invalid) with detailed tooltips.
@@ -29,7 +31,9 @@
     *   Displays team score and **Remaining Budget**.
     *   **Picking Animation**: Wave text animation and flash highlight for the active team.
     *   **Auto-Scroll**: Automatically scrolls to the current drafting team.
-*   **Dark Mode**: One-click toggle between Dark/Light themes with auto-save.
+*   **Visual Customization**:
+    *   **Dark Mode**: One-click toggle between Dark/Light themes with auto-save.
+    *   **Rich / Performance Mode**: Toggle between rich Glassmorphism effects (Rich Mode) and a static mode optimized for speed (Performance Mode).
 
 #### Data Management
 *   **Excel Import/Export**:
@@ -89,7 +93,7 @@ This project is built using Node.js and Vite.
 #### 操作與介面
 *   **控制面板**：
     *   可收合/展開，節省螢幕空間。
-    *   群組化按鈕設計（設定、操作、系統）。
+    *   **快速切換**：右上角按鈕可快速切換深色模式與 **精緻/流暢模式**。
     *   輸入防呆與紅框警告。
 *   **手動選人 (Manual Pick)**：
     *   提供搜尋功能。
@@ -98,7 +102,9 @@ This project is built using Node.js and Vite.
     *   顯示隊伍分數與 **剩餘預算**。
     *   **Picking 動畫**：輪到該隊時顯示波浪文字動畫與高亮閃爍效果。
     *   **自動定位**：畫面會自動捲動至當前選秀隊伍。
-*   **暗黑模式 (Dark Mode)**：支援一鍵切換深色/淺色主題，並自動儲存設定。
+*   **視覺自訂**：
+    *   **暗黑模式 (Dark Mode)**：支援一鍵切換深色/淺色主題。
+    *   **精緻 / 流暢模式**：可切換華麗的毛玻璃特效 (精緻模式) 與浮動動畫，或選擇流暢模式以獲得極致的效能體驗。
 
 #### 資料管理
 *   **Excel 匯入/匯出**：
@@ -147,6 +153,7 @@ This project is built using Node.js and Vite.
 *   **Language**: JavaScript (ES6+)
 *   **Styling**: CSS3 (Variables, Flexbox, Grid, Animations)
 *   **Data Processing**: SheetJS (xlsx)
+*   **Performance**: React.memo / useMemo optimizations, CSS will-change management
 
 ## 📂 Project Structure / 專案結構
 

@@ -36,39 +36,54 @@ export const DraftLogic = {
         return candidates[candidates.length - 1];
     },
 
-    // 檢查單一隊伍是否能完成組隊 (使用已排序的分數陣列進行效能優化)
-    canCompleteTeam: (slots, minScore, maxScore, sortedScores) => {
-        if (slots === 0) return minScore <= 0 && 0 <= maxScore;
-        if (sortedScores.length < slots) return false;
+    // 核心優化：檢查可行性 (不複製陣列，直接邏輯跳過)
+    // 複雜度：O(S) 當 slots > 1; O(N) 當 slots = 1
+    checkFeasibilityWithRemoval: (slots, minNeeded, maxAllowed, sortedScores, scoreToRemove) => {
+        if (slots <= 0) return minNeeded <= 0 && 0 <= maxAllowed;
+        if (sortedScores.length - 1 < slots) return false; // 扣掉被選走的那一位後，人數不足
 
-        // 快速範圍檢查
-        // 最小可能總分 (選最小的 k 個)
-        let minPossible = 0;
-        for (let i = 0; i < slots; i++) minPossible += sortedScores[i];
-        if (minPossible > maxScore) return false;
+        // 1. 檢查最小可能總分 (Min Sum)
+        // 邏輯：加總最小的 S 個數字 (若遇到 scoreToRemove 則跳過一次)
+        let minSum = 0;
+        let count = 0;
+        let skipped = false;
+        for (let i = 0; i < sortedScores.length && count < slots; i++) {
+            const s = sortedScores[i];
+            if (!skipped && s === scoreToRemove) { skipped = true; continue; }
+            minSum += s;
+            count++;
+        }
+        if (minSum > maxAllowed) return false;
 
-        // 最大可能總分 (選最大的 k 個)
-        let maxPossible = 0;
-        for (let i = 0; i < slots; i++) maxPossible += sortedScores[sortedScores.length - 1 - i];
-        if (maxPossible < minScore) return false;
+        // 2. 檢查最大可能總分 (Max Sum)
+        // 邏輯：加總最大的 S 個數字
+        let maxSum = 0;
+        count = 0;
+        skipped = false;
+        for (let i = sortedScores.length - 1; i >= 0 && count < slots; i--) {
+            const s = sortedScores[i];
+            if (!skipped && s === scoreToRemove) { skipped = true; continue; }
+            maxSum += s;
+            count++;
+        }
+        if (maxSum < minNeeded) return false;
 
-        // 如果只剩一格，需要精確檢查區間內是否有值
+        // 3. 特殊檢查：只剩一格時 (Gap Problem)
+        // Min/Max 檢查只能保證範圍，不能保證範圍內真的有數字 (例如需要 15，但只有 10 和 20)
         if (slots === 1) {
-            // 因為已排序，可以用 find 快速找
-            const candidate = sortedScores.find(s => s >= minScore);
-            return candidate !== undefined && candidate <= maxScore;
+            // 必須找到一個 s，使得 minNeeded <= s <= maxAllowed
+            // 這裡必須遍歷 (O(N))，但因為只在最後一輪發生，影響可控
+            skipped = false;
+            for (const s of sortedScores) {
+                if (!skipped && s === scoreToRemove) { skipped = true; continue; }
+                if (s >= minNeeded) {
+                    return s <= maxAllowed;
+                }
+            }
+            return false;
         }
 
         return true;
-    },
-
-    // 輔助函式：從排序陣列中移除一個分數 (回傳新陣列)
-    removeScoreFromSorted: (sortedScores, scoreToRemove) => {
-        const index = sortedScores.indexOf(scoreToRemove);
-        if (index === -1) return sortedScores;
-        const newScores = sortedScores.slice();
-        newScores.splice(index, 1);
-        return newScores;
     },
 
     // 檢查選擇某球員後，該隊伍未來是否還有活路 (自身可行性)
@@ -84,16 +99,11 @@ export const DraftLogic = {
         const minNeeded = settings.minScore - currentScore;
         const maxAllowed = settings.maxScore - currentScore;
         
-        // 模擬移除該球員後的剩餘分數池
-        const nextSortedScores = DraftLogic.removeScoreFromSorted(sortedScores, candidatePick.score);
-
-        return DraftLogic.canCompleteTeam(remainingSlots, minNeeded, maxAllowed, nextSortedScores);
+        return DraftLogic.checkFeasibilityWithRemoval(remainingSlots, minNeeded, maxAllowed, sortedScores, candidatePick.score);
     },
 
     // 檢查全局可行性 (是否會害死其他隊伍) - 這是防止死鎖的關鍵
     checkGlobalFeasibility: (pickingTeamIndex, candidatePick, sortedScores, teams, settings, teammatesPerTeam) => {
-        const nextSortedScores = DraftLogic.removeScoreFromSorted(sortedScores, candidatePick.score);
-
         for (let i = 0; i < teams.length; i++) {
             if (i === pickingTeamIndex) continue;
 
@@ -104,7 +114,7 @@ export const DraftLogic = {
             const minNeeded = settings.minScore - team.score;
             const maxAllowed = settings.maxScore - team.score;
 
-            if (!DraftLogic.canCompleteTeam(remainingSlots, minNeeded, maxAllowed, nextSortedScores)) {
+            if (!DraftLogic.checkFeasibilityWithRemoval(remainingSlots, minNeeded, maxAllowed, sortedScores, candidatePick.score)) {
                 return false; // 這個選擇會導致隊伍 i 無法完成
             }
         }
